@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import { WebView, View, StyleSheet } from 'react-native';
 import renderChart from './renderChart';
-import echarts from './echarts.min';
+//import echarts from './echarts.min';
+import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
+
+let source;
+const _source = resolveAssetSource(require('./tpl.html'));
+if (__DEV__) {
+  source = { uri: `${_source.uri}` };
+} else {
+  const sourceAndroid = { uri: `file:///android_asset/tpl.html` };
+  const sourceIOS = { uri: `file://${_source.uri}` };
+  source = Platform.OS === 'ios' ? sourceIOS : sourceAndroid;
+}
 
 export default class App extends Component {
   componentWillReceiveProps(nextProps) {
@@ -20,7 +31,7 @@ export default class App extends Component {
           style={{
             height: this.props.height || 400,
           }}
-          source={require('./tpl.html')}
+          source={source}
         />
       </View>
     );
