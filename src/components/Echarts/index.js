@@ -13,7 +13,9 @@ if (__DEV__) {
   const sourceIOS = { uri: `file://${_source.uri}` };
   source = Platform.OS === 'ios' ? sourceIOS : sourceAndroid;
 }
-
+//另外一种改法：由于在发包时，找不到模板，现将
+//source={require('./tpl.html')}改为source={this.props.source}
+//模板由外部传入
 export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.option !== this.props.option) {
